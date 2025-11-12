@@ -2,7 +2,7 @@
 <AndroidAttestation>
 <NumberOfKeyboxes>1</NumberOfKeyboxes>
 <Keybox
-DeviceID="KaoriToolbox">
+DeviceID="KaoriosToolbox">
 <Key algorithm="ecdsa">
 <PrivateKey format="pem">
 -----BEGIN EC PRIVATE KEY-----
@@ -86,7 +86,7 @@ w1IdYIg2Wxg7yHcQZemFQg==
 </Certificate>
 </CertificateChain>
 </Key>
-<Key algorithm="xnb">
+<Key algorithm="rsa">
 <PrivateKey format="pem">
 -----BEGIN RSA PRIVATE KEY-----
 MIIG4gIBAAKCAYEAyYwuhlRzYhDBe3qn18FZHAp2x2bpwngWAvPVKn1FLciitxnY
@@ -126,8 +126,7 @@ bYczWpLwwnMfw9YJrdtnyzME9i5i1VOCPkSnf9j1OQpU7iU4jlKLWJfoWqRcdMD0
 oNnUJ6Rl0lNTEUDy1rPNRxGAP/RdDOJykfaeccQ17EgYRMglLX2A0Ryiuqn34h/4
 T2LtYoTn35a5fCQj9ZsKx85U3iglUq1Wi2EJS+hEOBAY/b4R55N1pr1ln0A012BR
 kbM/qi6/c4isoMVC4OjyJiEtIxUwr27zxaBnYkRb/YYAHTdG5eE=
------END RSA PRIVATE KEY-----
-</PrivateKey>
+-----END RSA PRIVATE KEY-----</PrivateKey>
 <CertificateChain>
 <NumberOfCertificates>3</NumberOfCertificates>
 <Certificate format="pem">
