@@ -1,69 +1,112 @@
-#Step 1: Add to system/build.prop:
- + persist.sys.kaorios=kousei
-------------------------
-#Step 2: Import classes.dex to the last classes of framework.jar
-------------------------
-#Step 3: Modify classes of framework.jar
-1.1 Class: ApplicationPackageManager
- + Method: hasSystemFeature(Ljava/lang/String;)Z
 
-Above:
-    return v0
+## Step 1: Add to `system/build.prop`
+
+```properties
+persist.sys.kaorios=kousei
+```
+
+---
+
+## Step 2: Import `classes.dex`
+
+Import **classes.dex** của Kaorios vào **cuối cùng** trong danh sách `classes` của `framework.jar`.
+
+---
+
+## Step 3: Modify `framework.jar` Classes
+
+### 3.1 Class: `ApplicationPackageManager`
+
+#### ➤ Method: `hasSystemFeature(Ljava/lang/String;)Z`
+
+**Tìm dòng:**
+```smali
+return v0
 .end method
+```
 
-Add:
-    invoke-static {v0, p1}, Lcom/android/internal/util/kaorios/ToolboxUtils;->KaoriosAttestationBL(ZLjava/lang/String;)Z
+**Chèn *ngay phía trên*:**
+```smali
+invoke-static {v0, p1}, Lcom/android/internal/util/kaorios/ToolboxUtils;->KaoriosAttestationBL(ZLjava/lang/String;)Z
+move-result v0
+```
 
-    move-result v0
+---
 
- + Method hasSystemFeature(Ljava/lang/String;I)Z
+#### ➤ Method: `hasSystemFeature(Ljava/lang/String;I)Z`
 
-Above:
-    return v0
+**Tìm dòng:**
+```smali
+return v0
 .end method
+```
 
-Add:
-    invoke-static {p1, p2, v0}, Lcom/android/internal/util/kaorios/ToolboxUtils;->KaoriosFeatures(Ljava/lang/String;IZ)Z
+**Chèn *ngay phía trên*:**
+```smali
+invoke-static {p1, p2, v0}, Lcom/android/internal/util/kaorios/ToolboxUtils;->KaoriosFeatures(Ljava/lang/String;IZ)Z
+move-result v0
+```
 
-    move-result v0
+---
 
-1.2 Class: Instrumentation
- + Method: newApplication(Ljava/lang/Class;Landroid/content/Context;)Landroid/app/Application;
+### 3.2 Class: `Instrumentation`
 
-Above:
-    return-object v0
+#### ➤ Method: `newApplication(Ljava/lang/Class;Landroid/content/Context;)Landroid/app/Application;`
+
+**Tìm dòng:**
+```smali
+return-object v0
 .end method
+```
 
-Add:
-    invoke-static {p1}, Lcom/android/internal/util/kaorios/ToolboxUtils;->KaoriosProps(Landroid/content/Context;)V
+**Chèn *ngay phía trên*:**
+```smali
+invoke-static {p1}, Lcom/android/internal/util/kaorios/ToolboxUtils;->KaoriosProps(Landroid/content/Context;)V
+```
 
- + Method: newApplication(Ljava/lang/ClassLoader;Ljava/lang/String;Landroid/content/Context;)Landroid/app/Application;
+---
 
-Above:
-    return-object v0
+#### ➤ Method: `newApplication(Ljava/lang/ClassLoader;Ljava/lang/String;Landroid/content/Context;)Landroid/app/Application;`
+
+**Tìm dòng:**
+```smali
+return-object v0
 .end method
+```
 
-Add:
-    invoke-static {p3}, Lcom/android/internal/util/kaorios/ToolboxUtils;->KaoriosProps(Landroid/content/Context;)V
+**Chèn *ngay phía trên*:**
+```smali
+invoke-static {p3}, Lcom/android/internal/util/kaorios/ToolboxUtils;->KaoriosProps(Landroid/content/Context;)V
+```
 
-1.2 Class: KeyStore2
- + Method: getKeyEntry(Landroid/system/keystore2/KeyDescriptor;)Landroid/system/keystore2/KeyEntryResponse;
+---
 
-Above:
-    return-object v0
+### 3.3 Class: `KeyStore2`
+
+#### ➤ Method: `getKeyEntry(Landroid/system/keystore2/KeyDescriptor;)Landroid/system/keystore2/KeyEntryResponse;`
+
+**Tìm dòng:**
+```smali
+return-object v0
 .end method
+```
 
-Add:
-    invoke-static {v0}, Lcom/android/internal/util/kaorios/ToolboxUtils;->KaoriosKeybox(Landroid/system/keystore2/KeyEntryResponse;)Landroid/system/keystore2/KeyEntryResponse;
+**Chèn *ngay phía trên*:**
+```smali
+invoke-static {v0}, Lcom/android/internal/util/kaorios/ToolboxUtils;->KaoriosKeybox(Landroid/system/keystore2/KeyEntryResponse;)Landroid/system/keystore2/KeyEntryResponse;
+move-result-object v0
+```
 
-    move-result-object v0
+---
 
-1.3 Class: AndroidKeyStoreSpi
- + Method: engineGetCertificateChain(Ljava/lang/String;)[Ljava/security/cert/Certificate;
+### 3.4 Class: `AndroidKeyStoreSpi`
 
-Below:
-    .registers XX
+#### ➤ Method: `engineGetCertificateChain(Ljava/lang/String;)[Ljava/security/cert/Certificate;`
 
-Add:
-    invoke-static {}, Lcom/android/internal/util/kaorios/ToolboxUtils;->KaoriosPropsEngineGetCertificateChain()V
+**Ngay sau phần khai báo registers (`.registers XX`)**, thêm dòng:
 
+```smali
+invoke-static {}, Lcom/android/internal/util/kaorios/ToolboxUtils;->KaoriosPropsEngineGetCertificateChain()V
+```
+
+---
